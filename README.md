@@ -36,3 +36,14 @@ func main() {
 	fmt.Println(m)
 }
 ```
+# Output
+```	// Manager Object
+	{
+		John Doe 
+		33 
+		100 
+		false 
+		true
+	}
+
+```
