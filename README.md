@@ -4,7 +4,7 @@ AutoMapper is a simple little library built to solve a deceptively complex probl
 
 
 # Example
-```
+```go
 package main
 
 import (
