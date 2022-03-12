@@ -31,14 +31,15 @@ type Manager struct {
 func main() {
 	p := Personal{FullName: "John Doe", Age: 33, Salary: 100, HasCar: false}
 	m := Manager{}
-	auto.Mapper(p, &m, map[string]string{"HasCar": "CarHas"})
 
+	auto.Mapper(p, &m, map[string]string{"HasCar": "CarHas"})
 	fmt.Println(m)
 	// output
 	{ "John Doe", 33, 100, false, true }
 	
 	auto.Mapper(p, &m, nil)
 	fmt.Println(m)
+	// output
 	{ "John Doe", 33, 100, false, false }
 	
 }
