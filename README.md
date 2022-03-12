@@ -40,3 +40,7 @@ func main() {
 	{ "John Doe", 33, 100, false, true }
 }
 ```
+# Installation
+```
+go get -u github.com/erhankrygt/automapper
+```
