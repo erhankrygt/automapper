@@ -37,6 +37,6 @@ func main() {
 	
 	
 	// output
-	{ John Doe 33 100 false true }
+	{ "John Doe", 33, 100, false, true }
 }
 ```
