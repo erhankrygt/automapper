@@ -2,3 +2,37 @@
 
 AutoMapper is a simple little library built to solve a deceptively complex problem - getting rid of code that mapped one object to another. so why not invent a tool to do it for us?
 
+
+# Example
+```
+package main
+
+import (
+	"fmt"
+	auto "github.com/erhankrygt/automapper"
+)
+
+type Personal struct {
+	FullName string
+	Age      int
+	Salary   float64
+	HasCar   bool
+}
+
+type Manager struct {
+	FullName string
+	Age      int
+	Salary   float64
+	Manager  bool
+	CarHas   bool
+}
+
+// Main function
+func main() {
+	p := Personal{FullName: "John Doe", Age: 33, Salary: 100, HasCar: false}
+	m := Manager{}
+	auto.Mapper(p, &m, map[string]string{"HasCar": "CarHas"})
+
+	fmt.Println(m)
+}
+```
