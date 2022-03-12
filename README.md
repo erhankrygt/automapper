@@ -34,16 +34,9 @@ func main() {
 	auto.Mapper(p, &m, map[string]string{"HasCar": "CarHas"})
 
 	fmt.Println(m)
+	
+	
+	// output
+	{ John Doe 33 100 false true }
 }
-```
-# Output
-```	// Manager Object
-	{
-		John Doe 
-		33 
-		100 
-		false 
-		true
-	}
-
 ```
