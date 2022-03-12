@@ -34,10 +34,13 @@ func main() {
 	auto.Mapper(p, &m, map[string]string{"HasCar": "CarHas"})
 
 	fmt.Println(m)
-	
-	
 	// output
 	{ "John Doe", 33, 100, false, true }
+	
+	auto.Mapper(p, &m, nil)
+	fmt.Println(m)
+	{ "John Doe", 33, 100, false, false }
+	
 }
 ```
 # Installation
