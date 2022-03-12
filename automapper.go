@@ -36,7 +36,7 @@ func Mapper(s interface{}, d interface{}, diff map[string]string) {
 	}
 }
 
-func setValue(f *reflect.Value, obj MapperObject) {
+func setValue(f *reflect.Value, obj mapperObject) {
 	if f.CanSet() {
 		kind := f.Kind()
 		switch kind {
@@ -59,15 +59,15 @@ func setValue(f *reflect.Value, obj MapperObject) {
 	}
 }
 
-func registry(s interface{}) []MapperObject {
-	var obj []MapperObject
+func registry(s interface{}) []mapperObject {
+	var obj []mapperObject
 	st := reflect.Indirect(reflect.ValueOf(s))
 	if st.Kind() != reflect.Struct {
 		panic("could not convert to struct")
 	}
 
 	for i := 0; i < st.NumField(); i++ {
-		obj = append(obj, MapperObject{
+		obj = append(obj, mapperObject{
 			Value: st.Field(i).Interface(),
 			Key:   st.Type().Field(i).Name,
 		})
@@ -76,7 +76,7 @@ func registry(s interface{}) []MapperObject {
 	return obj
 }
 
-type MapperObject struct {
+type mapperObject struct {
 	Key   string
 	Value interface{}
 }
