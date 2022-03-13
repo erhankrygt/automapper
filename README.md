@@ -29,7 +29,7 @@ type Manager struct {
 
 // Main function
 func main() {
-	p := Personal{FullName: "John Doe", Age: 33, Salary: 100, HasCar: false}
+	p := Personal{FullName: "John Doe", Age: 33, Salary: 100, HasCar: true}
 	m := Manager{}
 
 	auto.Mapper(p, &m, map[string]string{"HasCar": "CarHas"})
