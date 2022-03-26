@@ -1,82 +1,62 @@
 package automapper
 
 import (
-	"fmt"
 	"reflect"
 )
 
 // Mapper returns destination. Generated from provided source. Will map destination properties with source properties, include values
 // Entity to Entity
-func Mapper(s interface{}, d interface{}, diff map[string]string) {
-	source := registry(s)
-
-	dest := reflect.Indirect(reflect.ValueOf(d))
-	if dest.Kind() != reflect.Struct {
-		panic("could not convert to struct")
+func Mapper(source interface{}, destination interface{}) {
+	s := reflect.ValueOf(source)
+	if s.Kind() != reflect.Struct {
+		panic("source' type is not struct")
 	}
 
-	elem := reflect.ValueOf(d).Elem()
-	for _, el := range source {
-		for i := 0; i < dest.NumField(); i++ {
-			k := dest.Type().Field(i).Name
+	d := reflect.Indirect(reflect.ValueOf(destination))
+	if d.Kind() != reflect.Struct {
+		panic("destination' type is not struct")
+	}
 
-			if el.Key == k {
-				f := elem.FieldByName(k)
-				setValue(&f, el)
-				continue
-			}
+	v := reflect.Indirect(s)
+	vd := reflect.Indirect(d)
+	for j := 0; j < v.NumField(); j++ {
+		f := vd.FieldByName(v.Type().Field(j).Name)
+		f.Set(v.Field(j))
+	}
+}
 
-			diffKey := diff[el.Key]
-			if diffKey != "" {
-				f := elem.FieldByName(diffKey)
-				setValue(&f, el)
-				continue
+// MapperForList returns destination collection. Generated from provided source. Will map destination properties with source properties, include values
+// List to List
+func MapperForList(source interface{}, destination interface{}) interface{} {
+	s := reflect.ValueOf(source)
+	if s.Kind() != reflect.Slice {
+		panic("source' type is not slice")
+	}
+
+	d := reflect.Indirect(reflect.ValueOf(destination))
+	if d.Kind() != reflect.Slice {
+		panic("destination' type is not slice")
+	}
+
+	for i := 0; i < s.Len(); i++ {
+		// append empty item in destination
+		ptr := reflect.New(d.Type().Elem()).Interface()
+		pv := reflect.ValueOf(ptr).Elem()
+		d = reflect.Append(d, pv)
+		// ***
+
+		item := s.Index(i)
+		destItem := d.Index(i)
+
+		if item.Kind() == reflect.Struct {
+			v := reflect.Indirect(item)
+			vd := reflect.Indirect(destItem)
+			for j := 0; j < v.NumField(); j++ {
+				f := vd.FieldByName(v.Type().Field(j).Name)
+				f.Set(v.Field(j))
 			}
 		}
 	}
-}
 
-func setValue(f *reflect.Value, obj mapperObject) {
-	if f.CanSet() {
-		kind := f.Kind()
-		switch kind {
-		case reflect.String:
-			f.SetString(fmt.Sprintf("%v", obj.Value))
-			break
-		case reflect.Int:
-			f.SetInt(int64(obj.Value.(int)))
-			break
-		case reflect.Float32:
-			f.SetFloat(float64(obj.Value.(float32)))
-			break
-		case reflect.Float64:
-			f.SetFloat(obj.Value.(float64))
-			break
-		case reflect.Bool:
-			f.SetBool(obj.Value.(bool))
-			break
-		}
-	}
-}
-
-func registry(s interface{}) []mapperObject {
-	var obj []mapperObject
-	st := reflect.Indirect(reflect.ValueOf(s))
-	if st.Kind() != reflect.Struct {
-		panic("could not convert to struct")
-	}
-
-	for i := 0; i < st.NumField(); i++ {
-		obj = append(obj, mapperObject{
-			Value: st.Field(i).Interface(),
-			Key:   st.Type().Field(i).Name,
-		})
-	}
-
-	return obj
-}
-
-type mapperObject struct {
-	Key   string
-	Value interface{}
+	return d.Interface()
 }
