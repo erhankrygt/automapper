@@ -23,8 +23,7 @@ type Manager struct {
 	FullName string
 	Age      int
 	Salary   float64
-	Manager  bool
-	CarHas   bool
+	HasCar   bool
 }
 
 // Main function
@@ -32,15 +31,42 @@ func main() {
 	p := Personal{FullName: "John Doe", Age: 33, Salary: 100, HasCar: true}
 	m := Manager{}
 
-	auto.Mapper(p, &m, map[string]string{"HasCar": "CarHas"})
+	auto.Mapper(p, &m)
 	fmt.Println(m)
 	// output
-	{ "John Doe", 33, 100, false, true }
+	{ "John Doe", 33, 100, true }
 	
-	auto.Mapper(p, &m, nil)
-	fmt.Println(m)
+	
+	l := []Personal{
+		{
+			FullName: "Name 1",
+			Age:      30,
+			HasCar:   false,
+			Salary:   100,
+		},
+		{
+			FullName: "Name 2",
+			Age:      40,
+			HasCar:   true,
+			Salary:   200,
+		},
+		{
+			FullName: "Name 3",
+			Age:      50,
+			HasCar:   false,
+			Salary:   300,
+		},
+	}
+
+	var tObj = automapper.MapperForList(l, []Manager{})
+	mList, _ := tObj.([]Manager)
+	fmt.Println(mList)
 	// output
-	{ "John Doe", 33, 100, false, false }
+	[
+	   {Name 1 30 100 false} 
+	   {Name 2 40 200 true} 
+	   {Name 3 50 300 false}
+	]
 	
 }
 ```
