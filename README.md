@@ -28,6 +28,7 @@ type Manager struct {
 
 // Main function
 func main() {
+	// *** Entity to Entity ***
 	p := Personal{FullName: "John Doe", Age: 33, Salary: 100, HasCar: true}
 	m := Manager{}
 
@@ -36,7 +37,9 @@ func main() {
 	// output
 	{ "John Doe", 33, 100, true }
 	
+	// ******
 	
+	// *** List to List ***
 	l := []Personal{
 		{
 			FullName: "Name 1",
@@ -68,6 +71,7 @@ func main() {
 	   {Name 3 50 300 false}
 	]
 	
+	// ******
 }
 ```
 # Installation
