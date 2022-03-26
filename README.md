@@ -61,9 +61,10 @@ func main() {
 		},
 	}
 
-	var tObj = automapper.MapperForList(l, []Manager{})
-	mList, _ := tObj.([]Manager)
+	var t = automapper.MapperForList(l, []Manager{})
+	mList, _ := t.([]Manager)
 	fmt.Println(mList)
+	
 	// output
 	[
 	   {Name 1 30 100 false} 
